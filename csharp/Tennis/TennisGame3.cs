@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
@@ -16,7 +18,9 @@ namespace Tennis
 
         public string GetScore()
         {
-            var isNotYetEndgame = (player1Points < 4 && player2Points < 4) && (player1Points + player2Points < 6);
+            var bothPlayersHaveLessThanFour = player1Points < 4 && player2Points < 4;
+            var totalPointsIsLessThanSix = player1Points + player2Points < 6;
+            var isNotYetEndgame = bothPlayersHaveLessThanFour && totalPointsIsLessThanSix;
             if (isNotYetEndgame)
             {
                 var score = POINTS_NAMES[player1Points];
@@ -30,7 +34,7 @@ namespace Tennis
                 if (player1Points == player2Points)
                     return "Deuce";
                 var leader = player1Points > player2Points ? player1Name : player2Name;
-                var pointsDifferenceIsOne = (player1Points - player2Points) * (player1Points - player2Points) == 1;
+                var pointsDifferenceIsOne = Math.Abs(player1Points - player2Points) == 1;
                 if (pointsDifferenceIsOne)
                     return "Advantage " + leader;
                 else
