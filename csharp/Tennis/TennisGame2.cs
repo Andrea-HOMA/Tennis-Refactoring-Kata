@@ -25,90 +25,41 @@ namespace Tennis
 
         public string GetScore()
         {
-            var score = "";
-
             if (TryGetEndgameScore(out var endGameScore))
             {
                 return endGameScore;
             }
 
-            if (ScoreName(out var scoreName))
+            if (ScoreEqualScore(out var scoreName))
             {
                 return scoreName;
             }
-            
-            score = Score(score);
 
-            if (p1point > p2point && p2point >= 3)
+            if (p1point < 4 && p2point < 4)
             {
-                score = "Advantage player1";
+                return GetScoreBeforeAdvantage();    
             }
 
-            if (p2point > p1point && p1point >= 3)
-            {
-                score = "Advantage player2";
-            }
 
-            
-            return score;
+            return GetAdvantageScore();
         }
 
-        private string Score(string score)
+        private string GetAdvantageScore()
         {
-            if (p1point > 0 && p2point == 0)
+            if (p1point > p2point)
             {
-                if (p1point == 1)
-                    p1res = Fifteen;
-                if (p1point == 2)
-                    p1res = Thirty;
-                if (p1point == 3)
-                    p1res = Forty;
-
-                p2res = Love;
-                score = p1res + "-" + p2res;
-            }
-            if (p2point > 0 && p1point == 0)
-            {
-                if (p2point == 1)
-                    p2res = Fifteen;
-                if (p2point == 2)
-                    p2res = Thirty;
-                if (p2point == 3)
-                    p2res = Forty;
-
-                p1res = Love;
-                score = p1res + "-" + p2res;
+                return "Advantage player1";
             }
 
-            if (p1point > p2point && p1point < 4)
-            {
-                if (p1point == 2)
-                    p1res = Thirty;
-                if (p1point == 3)
-                    p1res = Forty;
-                if (p2point == 1)
-                    p2res = Fifteen;
-                if (p2point == 2)
-                    p2res = Thirty;
-                score = p1res + "-" + p2res;
-            }
-            if (p2point > p1point && p2point < 4)
-            {
-                if (p2point == 2)
-                    p2res = Thirty;
-                if (p2point == 3)
-                    p2res = Forty;
-                if (p1point == 1)
-                    p1res = Fifteen;
-                if (p1point == 2)
-                    p1res = Thirty;
-                score = p1res + "-" + p2res;
-            }
-
-            return score;
+            return "Advantage player2";
         }
 
-        private bool ScoreName(out string scoreName)
+        private string GetScoreBeforeAdvantage()
+        {
+            return ScoreNames[p1point] + "-" + ScoreNames[p2point];
+        }
+
+        private bool ScoreEqualScore(out string scoreName)
         {
             if (p1point != p2point)
             {
@@ -144,22 +95,12 @@ namespace Tennis
             return false;
         }
 
-        private void P1Score()
-        {
-            p1point++;
-        }
-
-        private void P2Score()
-        {
-            p2point++;
-        }
-
         public void WonPoint(string player)
         {
             if (player == "player1")
-                P1Score();
+                p1point++;
             else
-                P2Score();
+                p2point++;
         }
 
     }
