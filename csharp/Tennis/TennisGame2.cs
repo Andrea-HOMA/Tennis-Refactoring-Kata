@@ -32,16 +32,29 @@ namespace Tennis
                 return endGameScore;
             }
 
-            if (p1point == p2point && p1point < 3)
+            if (ScoreName(out var scoreName))
             {
-                score = ScoreNames[p1point];
-                
-                score += "-All";
+                return scoreName;
             }
-            if (p1point == p2point && p1point > 2)
-                score = "Deuce";
+            
+            score = Score(score);
 
-            Forty = "Forty";
+            if (p1point > p2point && p2point >= 3)
+            {
+                score = "Advantage player1";
+            }
+
+            if (p2point > p1point && p1point >= 3)
+            {
+                score = "Advantage player2";
+            }
+
+            
+            return score;
+        }
+
+        private string Score(string score)
+        {
             if (p1point > 0 && p2point == 0)
             {
                 if (p1point == 1)
@@ -92,18 +105,25 @@ namespace Tennis
                 score = p1res + "-" + p2res;
             }
 
-            if (p1point > p2point && p2point >= 3)
-            {
-                score = "Advantage player1";
-            }
-
-            if (p2point > p1point && p1point >= 3)
-            {
-                score = "Advantage player2";
-            }
-
-            
             return score;
+        }
+
+        private bool ScoreName(out string scoreName)
+        {
+            if (p1point != p2point)
+            {
+                scoreName = null;
+                return false;
+            }
+
+            if (p1point < 3)
+            {
+                scoreName = ScoreNames[p1point] + "-All";
+                return true;
+            }
+            
+            scoreName = "Deuce";
+            return true;
         }
 
         private bool TryGetEndgameScore(out string endGameScore)
