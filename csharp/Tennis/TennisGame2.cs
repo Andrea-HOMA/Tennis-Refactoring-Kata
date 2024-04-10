@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Tennis
 {
     public class TennisGame2 : ITennisGame
@@ -9,11 +11,15 @@ namespace Tennis
         private string p2res = "";
         private string player1Name;
         private string player2Name;
+        private static string Love = "Love";
+        private static string Fifteen = "Fifteen";
+        private static string Thirty = "Thirty";
+        private static string Forty = "Forty";
+        private List<string> ScoreNames = new() { Love, Fifteen, Thirty, Forty };
 
         public TennisGame2(string player1Name, string player2Name)
         {
             this.player1Name = player1Name;
-            p1point = 0;
             this.player2Name = player2Name;
         }
 
@@ -23,63 +29,67 @@ namespace Tennis
             if (p1point == p2point && p1point < 3)
             {
                 if (p1point == 0)
-                    score = "Love";
+                {
+                    score = Love;
+                }
+
                 if (p1point == 1)
-                    score = "Fifteen";
+                    score = Fifteen;
                 if (p1point == 2)
-                    score = "Thirty";
+                    score = Thirty;
                 score += "-All";
             }
             if (p1point == p2point && p1point > 2)
                 score = "Deuce";
 
+            Forty = "Forty";
             if (p1point > 0 && p2point == 0)
             {
                 if (p1point == 1)
-                    p1res = "Fifteen";
+                    p1res = Fifteen;
                 if (p1point == 2)
-                    p1res = "Thirty";
+                    p1res = Thirty;
                 if (p1point == 3)
-                    p1res = "Forty";
+                    p1res = Forty;
 
-                p2res = "Love";
+                p2res = Love;
                 score = p1res + "-" + p2res;
             }
             if (p2point > 0 && p1point == 0)
             {
                 if (p2point == 1)
-                    p2res = "Fifteen";
+                    p2res = Fifteen;
                 if (p2point == 2)
-                    p2res = "Thirty";
+                    p2res = Thirty;
                 if (p2point == 3)
-                    p2res = "Forty";
+                    p2res = Forty;
 
-                p1res = "Love";
+                p1res = Love;
                 score = p1res + "-" + p2res;
             }
 
             if (p1point > p2point && p1point < 4)
             {
                 if (p1point == 2)
-                    p1res = "Thirty";
+                    p1res = Thirty;
                 if (p1point == 3)
-                    p1res = "Forty";
+                    p1res = Forty;
                 if (p2point == 1)
-                    p2res = "Fifteen";
+                    p2res = Fifteen;
                 if (p2point == 2)
-                    p2res = "Thirty";
+                    p2res = Thirty;
                 score = p1res + "-" + p2res;
             }
             if (p2point > p1point && p2point < 4)
             {
                 if (p2point == 2)
-                    p2res = "Thirty";
+                    p2res = Thirty;
                 if (p2point == 3)
-                    p2res = "Forty";
+                    p2res = Forty;
                 if (p1point == 1)
-                    p1res = "Fifteen";
+                    p1res = Fifteen;
                 if (p1point == 2)
-                    p1res = "Thirty";
+                    p1res = Thirty;
                 score = p1res + "-" + p2res;
             }
 
@@ -102,22 +112,6 @@ namespace Tennis
                 score = "Win for player2";
             }
             return score;
-        }
-
-        public void SetP1Score(int number)
-        {
-            for (int i = 0; i < number; i++)
-            {
-                P1Score();
-            }
-        }
-
-        public void SetP2Score(int number)
-        {
-            for (var i = 0; i < number; i++)
-            {
-                P2Score();
-            }
         }
 
         private void P1Score()
